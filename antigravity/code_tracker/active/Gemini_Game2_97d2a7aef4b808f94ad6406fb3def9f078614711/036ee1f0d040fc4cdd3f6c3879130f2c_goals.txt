@@ -1,0 +1,20 @@
+�When given y=mx+b, the player finds the y‑intercept by setting x=0 and selects the correct intercept value.
+The player correctly identifies and places points at positive and negative y‑values with no sign mistakes.
+The player correctly locates and uses the origin (0,0) as a reference point when placing intercepts and steps.
+The player demonstrates that larger b places the intercept higher and negative b places it lower on the y‑axis.
+The player predicts whether the line is steep/shallow and rising/falling based on the slope value.
+After plotting two points, the player plots a third verification point to confirm the line matches the equation.
+The player consistently applies rise first, run second, and corrects any rise/run swap within one check.
+The player correctly places (0,b) for negative intercepts without sign errors.
+Early levels isolate one skill at a time (intercept-only → slope-step-only → full graph) so the player succeeds quickly and builds confidence.
+The game shows visible progress (level map + completed challenges) so the player always knows what they’ve mastered and what’s next.
+Scores reward speed + accuracy + fewer checks, encouraging replay to improve personal bests.
+Restart is framed as a strategy tool (no penalty early), encouraging experimentation without fear of failing.
+Given y=mx+b, the player identifies the intercept location and the direction/step pattern before drawing.
+The player completes full graphing challenges with fewer checks and improved time across a level set.
+Levels remix the same skill with new equation types (negatives, fractions, steep/shallow) to prevent memorization and build retention.
+Difficulty ramps in a predictable sequence: positive integers → negative intercepts → negative slopes → fractions → mixed trick cases.
+Each level is a short “graph puzzle” with minimal steps and immediate clues, so success feels like solving, not memorizing.
+By the end, the player can graph y=mx+b problems accurately under typical test constraints (time + no hints).
+The player finishes with a foundation for advanced missions: parallel lines, perpendicular lines, and systems by comparing slopes and intercepts.
+The game includes optional teacher/parent mode reporting accuracy, common mistakes, and time-to-master per skill.�"(97d2a7aef4b808f94ad6406fb3def9f0786147112Bfile:///c:/Users/jeffkit/OneDrive%20-%20CDW/Gemini_Game2/goals.txt:8file:///c:/Users/jeffkit/OneDrive%20-%20CDW/Gemini_Game2

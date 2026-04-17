@@ -1,0 +1,13 @@
+# Credentials and secrets
+oauth_creds.json
+google_accounts.json
+state.json
+installation_id
+
+# Browser profile data
+antigravity-browser-profile/
+
+# Ephemeral
+tmp/
+history/
+trustedFolders.json
