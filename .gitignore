@@ -1,0 +1,12 @@
+# Runtime & session data
+tmp/
+history/
+state.json
+logs.json
+
+# Sensitive / machine-specific
+oauth_creds.json
+google_accounts.json
+installation_id
+projects.json
+trustedFolders.json
