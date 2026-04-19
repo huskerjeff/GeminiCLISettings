@@ -1,12 +1,17 @@
+# Credentials and secrets
+oauth_creds.json
+google_accounts.json
+installation_id
+
+# Browser profile data
+antigravity-browser-profile/
+
 # Runtime & session data
 tmp/
 history/
 state.json
 logs.json
 
-# Sensitive / machine-specific
-oauth_creds.json
-google_accounts.json
-installation_id
+# Machine-specific
 projects.json
 trustedFolders.json

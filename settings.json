@@ -3,5 +3,9 @@
     "auth": {
       "selectedType": "oauth-personal"
     }
+  },
+  "hasSeenIdeIntegrationNudge": true,
+  "skills": {
+    "enabled": true
   }
 }
