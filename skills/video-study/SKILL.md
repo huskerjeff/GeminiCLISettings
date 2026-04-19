@@ -128,11 +128,13 @@ Save the conversation as a note:
 PYTHONUTF8=1 notebooklm history --save --note-title "Video Overview: <VIDEO_TITLE>" --notebook <NOTEBOOK_ID>
 ```
 
+**History detection:** Read the overview response. If the content is primarily about historical events, historical figures, past eras, or the chronological development of something over time, set `HISTORY_MODE = true`. Otherwise set `HISTORY_MODE = false`.
+
 ---
 
 ## STEP 9 — GENERATE ALL ARTIFACTS
 
-Kick off all four in sequence:
+Kick off all four in sequence (five if `HISTORY_MODE = true`):
 
 **Briefing Report:**
 ```bash
@@ -158,21 +160,32 @@ PYTHONUTF8=1 notebooklm generate mind-map --notebook <NOTEBOOK_ID> --json
 ```
 Store `MINDMAP_ID` from `mind_map` response (use `note_id` field if no `task_id`).
 
+**Timeline Infographic** (only if `HISTORY_MODE = true`):
+```bash
+PYTHONUTF8=1 notebooklm generate infographic "Create a timeline of significant events for this video" --notebook <NOTEBOOK_ID> --orientation landscape --detail standard --json
+```
+Store `TIMELINE_ID`.
+
 Print:
 ```
-⚙️ Generating: briefing report, infographic, blog post, mind map...
+⚙️ Generating: briefing report, infographic, blog post, mind map[, timeline infographic]...
 ```
 
 ---
 
 ## STEP 10 — WAIT FOR ARTIFACTS
 
-Wait for the three async artifacts:
+Wait for the three async artifacts (four if `HISTORY_MODE = true`):
 
 ```bash
 PYTHONUTF8=1 notebooklm artifact wait <BRIEFING_ID> --notebook <NOTEBOOK_ID> --timeout 900
 PYTHONUTF8=1 notebooklm artifact wait <INFOGRAPHIC_ID> --notebook <NOTEBOOK_ID> --timeout 900
 PYTHONUTF8=1 notebooklm artifact wait <BLOG_ID> --notebook <NOTEBOOK_ID> --timeout 900
+```
+
+If `HISTORY_MODE = true`:
+```bash
+PYTHONUTF8=1 notebooklm artifact wait <TIMELINE_ID> --notebook <NOTEBOOK_ID> --timeout 900
 ```
 
 ---
@@ -188,38 +201,60 @@ PYTHONUTF8=1 notebooklm download report "<OUTPUT_DIR>\<SLUG>-blog.md" --artifact
 PYTHONUTF8=1 notebooklm download mind-map "<OUTPUT_DIR>\<SLUG>-mindmap.json" --artifact <MINDMAP_ID> --notebook <NOTEBOOK_ID>
 ```
 
+If `HISTORY_MODE = true`:
+```bash
+PYTHONUTF8=1 notebooklm download infographic "<OUTPUT_DIR>\<SLUG>-timeline.png" --artifact <TIMELINE_ID> --notebook <NOTEBOOK_ID>
+```
+
 ---
 
 ## STEP 12 — ETHAN LESSON PLAN (only if ETHAN_MODE = true)
 
 If the user said "for Ethan" or `--ethan`, generate a lesson plan from the mind map using claude.ai via playwright-cli.
 
-**Open claude.ai:**
+Each playwright-cli command MUST be a separate Bash call — never chain with &&.
+
+**Open claude.ai and verify it loaded:**
 ```bash
 playwright-cli open --browser=chrome --persistent --headed https://claude.ai/new
+```
+```bash
+playwright-cli snapshot
+```
+Confirm the prompt textbox is visible before proceeding.
+
+**Click Add files button:**
+```bash
+playwright-cli click "getByRole('button', { name: 'Add files, connectors, and more' })"
+```
+
+**Click Add files or photos:**
+```bash
+playwright-cli click "getByRole('menuitem', { name: 'Add files or photos' })"
 ```
 
 **Upload the mind map:**
 ```bash
-playwright-cli click "getByRole('button', { name: 'Add files, connectors, and more' })"
-playwright-cli click "getByRole('menuitem', { name: 'Add files or photos' })"
 playwright-cli upload "<OUTPUT_DIR>\<SLUG>-mindmap.json"
 ```
 
-**Fill prompt and submit** (each as a SEPARATE Bash call — never chain with &&):
+**Fill the prompt:**
 ```bash
 playwright-cli fill "getByRole('textbox', { name: 'Write your prompt to Claude' })" "create a detailed lesson plan from this mind map"
+```
+
+**Submit:**
+```bash
 playwright-cli press Enter
 ```
 
-**Wait for response** — take a snapshot after ~30 seconds to check if generation is complete:
+**Poll for completion** — take snapshots every 15–20 seconds until a DOCX Download button appears. Claude.ai auto-generates a DOCX via the docx skill which takes 30–90 seconds:
 ```bash
 playwright-cli snapshot
 ```
-
-Look for a Download button on a DOCX artifact. When visible, click it:
+Repeat until snapshot shows `button "Download"` on a DOCX artifact. Then click it:
 ```bash
-playwright-cli click "getByRole('button', { name: 'Download' })"
+playwright-cli click "getByRole('button', { name: 'Download', exact: true })"
 ```
 
 The DOCX will download to `.playwright-cli\`. Move the most recently created DOCX to the output folder:
@@ -240,6 +275,7 @@ python -c "import os, glob, shutil; f = max(glob.glob(r'C:\Users\huske\OneDrive\
    - <SLUG>-infographic.png
    - <SLUG>-blog.md
    - <SLUG>-mindmap.json
+   [- <SLUG>-timeline.png  (history detected)]
    [- <SLUG>-lesson-plan.docx  (Ethan mode)]
 
 🔗 Continue in NotebookLM: https://notebooklm.google.com
@@ -251,5 +287,6 @@ python -c "import os, glob, shutil; f = max(glob.glob(r'C:\Users\huske\OneDrive\
 - NotebookLM notebook created with auto-assigned title
 - Overview chat run and saved as note
 - All 4 artifacts generated and downloaded to Learning\<FOLDER_NAME>\
+- If history detected: timeline infographic generated and downloaded as `<SLUG>-timeline.png`
 - If Ethan mode: lesson plan DOCX downloaded and moved to same folder
 </success_criteria>
