@@ -417,13 +417,7 @@ When a user asks to add a YouTube video to a new notebook, ALWAYS follow these s
    ```
    Display the answer as a **Video Overview**.
 
-5. Check the auto-assigned notebook title:
-   ```bash
-   notebooklm list --json
-   ```
-   Find the entry matching `NOTEBOOK_ID` and display the title to the user.
-
-6. Print a summary:
+5. Print a summary:
    ```
    ✅ Video added to NotebookLM
    📓 Notebook: <AUTO_TITLE> (ID: <NOTEBOOK_ID>)
