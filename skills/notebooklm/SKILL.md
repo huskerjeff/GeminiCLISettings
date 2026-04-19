@@ -388,6 +388,48 @@ When user wants full automation (generate and download when ready):
 4. `notebooklm ask "What are the main arguments?"`
 5. Continue chatting as needed
 
+### YouTube Video — Add to New Notebook
+**Time:** 1-2 minutes
+
+When a user asks to add a YouTube video to a new notebook, ALWAYS follow these steps. Do NOT pre-fetch the title — NotebookLM auto-titles the notebook after processing.
+
+1. **Create a blank notebook:**
+   ```bash
+   notebooklm create "" --json
+   ```
+   Parse and store `NOTEBOOK_ID`.
+
+2. **Add the source:**
+   ```bash
+   notebooklm source add "<youtube_url>" --notebook <NOTEBOOK_ID> --json
+   ```
+   Parse and store `SOURCE_ID`.
+
+3. **Wait for processing** (use `PYTHONUTF8=1` to avoid Windows encoding errors):
+   ```bash
+   PYTHONUTF8=1 notebooklm source wait <SOURCE_ID> --notebook <NOTEBOOK_ID> --timeout 120
+   ```
+   After processing completes, NotebookLM **automatically sets a meaningful notebook title** — no rename needed.
+
+4. **Run an overview chat** to summarize the video for the user:
+   ```bash
+   PYTHONUTF8=1 notebooklm ask "Give me a comprehensive overview of this video: what is the main topic, who is presenting, what are the key points covered, and what are the most important takeaways?" --notebook <NOTEBOOK_ID>
+   ```
+   Display the answer as a **Video Overview**.
+
+5. Check the auto-assigned notebook title:
+   ```bash
+   notebooklm list --json
+   ```
+   Find the entry matching `NOTEBOOK_ID` and display the title to the user.
+
+6. Print a summary:
+   ```
+   ✅ Video added to NotebookLM
+   📓 Notebook: <AUTO_TITLE> (ID: <NOTEBOOK_ID>)
+   🔗 Continue in NotebookLM: https://notebooklm.google.com
+   ```
+
 ### Bulk Import
 **Time:** Varies by source count
 
